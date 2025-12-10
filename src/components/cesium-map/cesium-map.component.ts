@@ -39,5 +39,28 @@ export class CesiumMapComponent implements OnInit {
 
     // Force render to confirm imagery is attached
     // this.viewer.scene.requestRender();
+
+    this.addGeoServerLayer()
+  }
+
+  /**
+   * Add GeoServer WMS layer over OSM
+   */
+  addGeoServerLayer(): void {
+    const geoserverLayer = new Cesium.WebMapServiceImageryProvider({
+      url: window.location + 'geoserver/my_workspace/wms',
+      layers: 'my_layer',
+      parameters: {
+        service: 'WMS',
+        version: '1.1.1',
+        request: 'GetMap',
+        styles: '',
+        format: 'image/png',
+        transparent: true
+      },
+      credit: 'GeoServer'
+    });
+
+    this.viewer.imageryLayers.addImageryProvider(geoserverLayer);
   }
 }

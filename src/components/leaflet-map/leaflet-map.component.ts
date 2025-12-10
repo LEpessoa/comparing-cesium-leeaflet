@@ -29,5 +29,23 @@ export class LeafletMapComponent implements OnInit {
       maxZoom: 22,       // Must be set on the layer too, to match or exceed the map's maxZoom
       minZoom: 0,
     }).addTo(map);
+
+    this.addGeoServerLayer(map)
   }
+
+  /**
+   * Add GeoServer WMS layer over OSM
+   */
+  addGeoServerLayer(map: any): void {
+    const wmsLayer = L.tileLayer.wms(window.location + 'geoserver/my_workspace/wms', {
+      layers: 'my_workspace:my_layer',
+      format: 'image/png',
+      transparent: true,
+      attribution: 'GeoServer'
+    });
+
+    wmsLayer.addTo(map);
+  }
+
+
 }
